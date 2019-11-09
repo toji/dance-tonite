@@ -20,20 +20,41 @@ const group = new Group();
 group.matrixAutoUpdate = false;
 
 const SCALE = new Vector3();
-const changeInstance = (mesh, index, [position, rotation], color, scale) => {
-  if (position) {
-    mesh.setPositionAt(index, position);
-  }
-  if (color) {
-    mesh.setColorAt(index, color);
-  }
+const MATRIX = new THREE.Matrix4();
+
+const tempMatrix = (position, rotation, scale) => {
   if (rotation) {
+    MATRIX.makeRotationFromQuaternion(rotation);
+  } else {
+    MATRIX.identity();
+  }
+  if (position) {
+    MATRIX.setPosition(position);
+  }
+  if (scale) {
+    MATRIX.scale(scale);
+  }
+  return MATRIX;
+}
+
+const changeInstance = (mesh, index, [position, rotation], color, scale) => {
+  /*if (position) {
+    mesh.setPositionAt(index, position);
+  }*/
+  /*if (color) {
+    mesh.setColorAt(index, color);
+  }*/
+  /*if (rotation) {
     mesh.setQuaternionAt(index, rotation);
   }
   if (scale) {
     mesh.setScaleAt(index, SCALE.set(scale, scale, scale));
+  }*/
+
+  if (position || rotation || scale) {
+    mesh.setMatrixAt(index, tempMatrix(position, rotation, scale));
   }
-  mesh.needsUpdate();
+  //mesh.needsUpdate();
 };
 
 const changeInstanceColor = (mesh, index, color) => {

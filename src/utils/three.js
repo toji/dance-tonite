@@ -21,6 +21,7 @@ const QUATERNION = new THREE.Quaternion();
 const QUATERNION_2 = new THREE.Quaternion();
 const COLOR = new THREE.Color();
 const LAMBERT_MATERIAL = new THREE.MeshLambertMaterial();
+const MATRIX = new THREE.Matrix4();
 
 export const tempVector = (x = 0, y = 0, z = 0) => VECTOR.set(x, y, z);
 
@@ -45,8 +46,9 @@ export const createInstancedMesh = ({
     true,
   );
   for (let i = 0; i < count; i++) {
-    instancedMesh.setScaleAt(i, tempVector(1, 1, 1));
-    instancedMesh.setPositionAt(i, tempVector(0, 0, 0));
+    instancedMesh.setMatrixAt(i, MATRIX);
+    /*instancedMesh.setScaleAt(i, tempVector(1, 1, 1));
+    instancedMesh.setPositionAt(i, tempVector(0, 0, 0));*/
   }
 
   instancedMesh.visible = true;
